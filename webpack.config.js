@@ -24,9 +24,23 @@ var config = {
           loader: 'postcss-loader',
           options: {
             plugins: () => [require('autoprefixer')]
-          }},
-          'sass-loader'
-        ]
+          }}, 'sass-loader']
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader', {
+          loader: 'postcss-loader',
+          options: {
+            plugins: () => [require('autoprefixer')]
+          }
+        }]
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'fonts/[name].[ext]',
+        }
       }
     ]
   },
