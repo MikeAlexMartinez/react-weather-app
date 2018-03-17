@@ -1,16 +1,31 @@
 var React = require('react');
 var ReactRouter = require('react-router-dom');
-var WeatherIcon = require('./WeatherIcon').WeatherIcon;
+
+var Router = ReactRouter.BrowserRouter;
+var Route = ReactRouter.Route;
+var Switch = ReactRouter.Switch;
+
+var NavBar = require('./NavBar');
+var Home = require('./Home');
+var Forecast = require('./Forecast');
 
 require('../../stylesheets/components/App.scss');
 
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <div>Hello World!</div>
-        <WeatherIcon name="cloud" size="4x" />
-      </div>
+      <Router>
+        <div className='container'>
+          <NavBar />
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/forecast' component={Forecast} />
+            <Route render={function() {
+              return <p>Not Found!</p>;
+            }} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
