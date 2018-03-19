@@ -47,6 +47,7 @@ function summariseForecastData(response) {
     });
   
     resolve({
+      status: true,
       location: location,
       forecast: summarisedData
     });
@@ -55,15 +56,14 @@ function summariseForecastData(response) {
 
 function handleError(err) {
   console.warn(err);
-  return null;
 }
 
-getForecastData('LONDON', 'UK')
+getForecastData('made up', 'UK')
   .then(summariseForecastData)
   .then(function(data) {
     console.log(data);
   })
-  .catch(err => console.error(err));
+  .catch(handleError);
 
 module.exports = {
   getForecastData,
