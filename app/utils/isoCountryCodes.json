@@ -228,6 +228,7 @@
 		{"name":"UKRAINE","alpha2":"UA","alpha3":"UKR","number":804},
 		{"name":"UNITED ARAB EMIRATES","alpha2":"AE","alpha3":"ARE","number":784},
 		{"name":"UNITED KINGDOM","alpha2":"GB","alpha3":"GBR","number":826},
+		{"name":"UNITED KINGDOM","alpha2":"UK","alpha3":"GBR","number":826},
 		{"name":"UNITED STATES","alpha2":"US","alpha3":"USA","number":840},
 		{"name":"UNITED STATES MINOR OUTLYING ISLANDS","alpha2":"UM","alpha3":"UMI","number":581},
 		{"name":"URUGUAY","alpha2":"UY","alpha3":"URY","number":858},

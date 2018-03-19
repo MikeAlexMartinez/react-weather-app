@@ -3,7 +3,7 @@ var PropTypes = require('prop-types');
 
 var Link = require('react-router-dom').Link;
 
-var isLocationValid = require('../utils/string').isLocationValid;
+var isLocationValid = require('../utils/cityAndCountry').isLocationValid;
 
 class LocationInput extends React.Component {
   constructor (props) {
