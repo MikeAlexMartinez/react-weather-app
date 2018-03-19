@@ -3,43 +3,64 @@ var PropTypes = require('prop-types');
 
 var Link = require('react-router-dom').Link;
 
-var isLocationValid = require('../utils/cityAndCountry').isLocationValid;
+var locationIsValid = require('../utils/cityAndCountry').locationIsValid;
 
 class LocationInput extends React.Component {
   constructor (props) {
     super(props);
 
+    var city = '';
+    var country = '';
+    
+    // check if location is valid
+    var cAndC = locationIsValid(props.location);
+    
+    // if valid set 
+    if (cAndC.isValid) {
+      city = cAndC.city;
+      country = cAndC.country;
+    }
+
     this.state = {
-      location: props.val,
-      city: '',
-      country: '',
-      valid: props.valid,
+      location: props.location,
+      city: city,
+      country: country,
+      valid: cAndC.isValid,
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // check if value is valid,
   // if no disable button
   handleChange(event) {
     var val = event.target.value;
-    var isValid = isLocationValid(val);
-    this.setState(function() {
-      return {
-        location: val,
-        valid: isValid
-      };
-    });
-  }
+    var cAndC = locationIsValid(val);
 
-  handleSubmit(event) {
-    
+    if (cAndC.isValid) {
+      this.setState(function() {
+        return {
+          location: val,
+          city: cAndC.city,
+          country: cAndC.country,
+          valid: cAndC.isValid,
+        };
+      });
+    } else {
+      this.setState(function() {
+        return {
+          location: val,
+          city: '',
+          country: '',
+          valid: cAndC.isValid
+        }; 
+      });
+    }
   }
 
   render () {
     return (
-      <div className={this.props.style}>
+      <div className={this.props.style + ' location-form'}>
         <input
           id='location'
           placeholder={this.state.location}
@@ -53,6 +74,7 @@ class LocationInput extends React.Component {
           type='button'
           onClick={this.handleSubmit}
           disabled={!this.state.valid}
+          to={}
         >
           Submit
         </Link>
@@ -64,13 +86,11 @@ class LocationInput extends React.Component {
 LocationInput.propTypes = {
   location: PropTypes.string.isRequired,
   style: PropTypes.string.isRequired,
-  valid: PropTypes.bool.isRequired,
 };
 
 location.defaultProps = {
   location: 'London, UK',
   style: 'vertical',
-  valid: true
 };
 
 module.exports = LocationInput;
