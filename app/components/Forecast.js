@@ -67,16 +67,19 @@ class Forecast extends React.Component {
       return <p>{errMessage}</p>;
     } else if (forecast.length > 0 && !showDetail) {
       return (
-        <div className='forecasts'>
+        <div className='forecast'>
           {forecast.map((v) => {
             const date = toLocaleDate(v.date);
+            const time = new Date().getHours();
             return (
               <ForecastItem
                 key={v.date.getDate()}
                 date={date}
-                dayIcon={v.dayIcon}
-                nightIcon={v.nightIcon}
-                time={new Date().getDate()}
+                icon={
+                  time <= 7 && time >= 19
+                    ? v.nightIcon
+                    : v.dayIcon
+                }
               />
             );
           })}

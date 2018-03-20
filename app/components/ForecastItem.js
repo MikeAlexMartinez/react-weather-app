@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WeatherIcon from './WeatherIcon';
+import WeatherIcon from 'react-weathericons';
 
-const ForecastItem = ({ date, dayIcon, nightIcon, time }) => {
+const ForecastItem = ({ date, icon }) => {
   return (
     <div className='forecast-item'>
+      <WeatherIcon name={icon} size='5x' />
       <p>{date}</p>
     </div>
   );
@@ -12,9 +13,7 @@ const ForecastItem = ({ date, dayIcon, nightIcon, time }) => {
 
 ForecastItem.propTypes = {
   date: PropTypes.string.isRequired,
-  dayIcon: PropTypes.string.isRequired,
-  nightIcon: PropTypes.string.isRequired,
-  time: PropTypes.number.isRequired,
+  icon: PropTypes.string.isRequired,
 };
 
 export default ForecastItem;

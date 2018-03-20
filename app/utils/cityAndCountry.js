@@ -27,24 +27,28 @@ function splitCityAndCountry(str) {
   var valid = true;
   var city = null;
   var country = null;
-  var wordArr ;
-  
+  var wordArr;
+  const index = str.indexOf(',');
+
   // if no comma, assume country is UK and full string is city
-  if (str.indexOf(',') === -1) {
+  if (index === -1) {
     country = 'UK';
     city = str.trim().toUpperCase();
-
-  // check if string matches regex expression defined in 're'
-  } else if (!re.test(str)) {
+  }
+  
+  // check pattern matches 
+  if (!re.test(str)) {
     valid = false;
-  } else {
+  }
+  
+  // check if number of commas is greater than 2
+  if (index != -1) {
     wordArr = str.split(',');
     if (wordArr.length > 2) {
       valid = false;
-    } else {
-      city = wordArr[0].trim().toUpperCase();
-      country = wordArr[1].trim().toUpperCase();
     }
+    city = wordArr[0].trim().toUpperCase();
+    country = wordArr[1].trim().toUpperCase();
   }
 
   return {
@@ -54,43 +58,7 @@ function splitCityAndCountry(str) {
   };
 }
 
-/**
- * tests location provided in input is as expected
- * @param {string} str
- * @return {object} 
- */
-function locationIsValid(str) {
-  var cityAndCountry = splitCityAndCountry(str);
-  if (!cityAndCountry.isValid) {
-    return cityAndCountry.isValid;
-  } else { 
-    var city = cityAndCountry.city;
-    var country = cityAndCountry.country;
-    var isValid = true;
-    
-    // city should only contain alphanumeric characters or whitespace
-    var re = /[\w\s]/g;
-    
-    // check city is alphanumeric
-    if (isValid) {
-      isValid = re.test(city);
-    }
-    
-    // check country is present in countries list
-    if (isValid) {
-      countriesArr.indexOf(country) !== -1;
-    }
-    
-    return {
-      city: city,
-      country: country,
-      isValid: isValid
-    };
-  }
-}
-
 module.exports = {
-  locationIsValid,
   splitCityAndCountry,
   countries
 };

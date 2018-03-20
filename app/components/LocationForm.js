@@ -4,7 +4,7 @@ var PropTypes = require('prop-types');
 var Link = require('react-router-dom').Link;
 var Toast = require('./Toast');
 
-var locationIsValid = require('../utils/cityAndCountry').locationIsValid;
+const { splitCityAndCountry } = require('../utils/cityAndCountry');
 
 class LocationForm extends React.Component {
   constructor (props) {
@@ -14,7 +14,7 @@ class LocationForm extends React.Component {
     var country = '';
     
     // check if location is valid
-    var cAndC = locationIsValid(props.location);
+    var cAndC = splitCityAndCountry(props.location);
     
     // if valid set 
     if (cAndC.isValid) {
@@ -37,7 +37,7 @@ class LocationForm extends React.Component {
   // if no disable button
   handleChange(event) {
     var val = event.target.value;
-    var cAndC = locationIsValid(val);
+    var cAndC = splitCityAndCountry(val);
 
     if (cAndC.isValid) {
       this.setState(function() {
