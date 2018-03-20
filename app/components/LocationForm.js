@@ -5,7 +5,7 @@ var Link = require('react-router-dom').Link;
 
 var locationIsValid = require('../utils/cityAndCountry').locationIsValid;
 
-class LocationInput extends React.Component {
+class LocationForm extends React.Component {
   constructor (props) {
     super(props);
 
@@ -29,6 +29,7 @@ class LocationInput extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   // check if value is valid,
@@ -58,10 +59,19 @@ class LocationInput extends React.Component {
     }
   }
 
+  // Prevent submission if input is invalid
+  handleSubmit(e) {
+    if (!this.state.valid) {
+      e.preventDefault();
+    }
+  }
+
   render () {
     return (
-      <div className={this.props.style + ' location-form'}>
+      <div className={'location-form ' + this.props.style}>
+        {this.props.children}
         <input
+          className={'location-input ' + this.props.style}
           id='location'
           placeholder={this.state.location}
           type='text'
@@ -70,27 +80,31 @@ class LocationInput extends React.Component {
           onChange={this.handleChange}
         />
         <Link
-          className='submit'
+          className={'location-submit'}
           type='button'
           onClick={this.handleSubmit}
-          disabled={!this.state.valid}
-          to={}
+          to={{
+            pathname: '/forecast',
+            search: '?city=' + this.state.city + '&country=' + this.state.country 
+          }}
         >
-          Submit
+          Get Weather
         </Link>
       </div>
     );
   }
 }
 
-LocationInput.propTypes = {
-  location: PropTypes.string.isRequired,
-  style: PropTypes.string.isRequired,
+LocationForm.propTypes = {
+  location: PropTypes.string,
+  style: PropTypes.string,
+  match: PropTypes.string,
+  children: PropTypes.object,
 };
 
-location.defaultProps = {
+LocationForm.defaultProps = {
   location: 'London, UK',
   style: 'vertical',
 };
 
-module.exports = LocationInput;
+module.exports = LocationForm;

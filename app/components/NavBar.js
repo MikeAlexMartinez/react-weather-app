@@ -1,15 +1,22 @@
 var React = require('react');
+var Link = require('react-router-dom').Link;
+
+var LocationForm = require('./LocationForm');
 
 class NavBar extends React.Component {
   render() {
     return (
       <div className='navbar'>
-        <div className='right'>
-          <h3>Wherether</h3>
-          <h5>Telling you the weather where you are</h5>
-        </div>
         <div className='left'>
-          Form goes here
+          <Link
+            to={'/'}
+          >
+            <h3 className='title'>Wherether</h3>
+          </Link>
+          <h5 className='subtitle'>Telling you the weather where you are</h5>
+        </div>
+        <div className='right'>
+          <LocationForm style='horizontal' />
         </div>
       </div>
     );

@@ -60,9 +60,6 @@ function splitCityAndCountry(str) {
  * @return {object} 
  */
 function locationIsValid(str) {
-  console.log(countriesArr.length);
-  console.log(countries);
-
   var cityAndCountry = splitCityAndCountry(str);
   if (!cityAndCountry.isValid) {
     return cityAndCountry.isValid;
