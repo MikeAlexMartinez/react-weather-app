@@ -1,13 +1,13 @@
 'use strict';
 
 var axios = require('axios');
-var KEY = require('../config.js').OPEN_WEATHER_API_KEY;
+const { OPEN_WEATHER_API_KEY } = require('../config.js');
 var openWeatherCodes = require('./openWeatherCodes');
 
 // hits api end point
 function getForecastData(city, country) {
   var target = 'http://api.openweathermap.org/data/2.5/forecast?q=' +
-    city + ',' + country + '&APPID=' + KEY;
+    city + ',' + country + '&APPID=' + OPEN_WEATHER_API_KEY;
 
   return axios.get(target);
 }
@@ -32,7 +32,6 @@ function summariseForecastData(response) {
     });
   
     var summarisedData = filteredData.map(function(v) {
-      console.log(v);
       var weather = v.weather[0];
       return {
         id: weather.id,
@@ -41,8 +40,11 @@ function summariseForecastData(response) {
         dayIcon: openWeatherCodes[weather.id.toString()].dayIcon,
         nightIcon: openWeatherCodes[weather.id.toString()].nightIcon,
         date: new Date(v.dt_txt),
-        fahrenheitTemp: kelvinToFahrenheit(v.main.temp),
-        celsiusTemp: kelvinToCelsius(v.main.temp),
+        fahrenheitTempMax: kelvinToFahrenheit(v.main.temp_max),
+        fahrenheitTempMin: kelvinToFahrenheit(v.main.temp_min),
+        celsiusTempMax: kelvinToCelsius(v.main.temp_max),
+        celsiusTempMin: kelvinToCelsius(v.main.temp_min),
+        humidity: v.main.humidity,
       };
     });
   
@@ -54,23 +56,14 @@ function summariseForecastData(response) {
   });
 }
 
-function handleError(err) {
-  console.warn(err);
-}
-
-getForecastData('made up', 'UK')
-  .then(summariseForecastData)
-  .then(function(data) {
-    console.log(data);
-  })
-  .catch(handleError);
-
 module.exports = {
   getForecastData,
   summariseForecastData,
   fetchCityForecast: function(city, country) {
     return axios.get(getForecastData(city, country))
       .then(summariseForecastData)
-      .catch(handleError);
+      .catch((err) => {
+        return err;
+      });
   }
 };

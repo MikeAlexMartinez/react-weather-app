@@ -42,6 +42,7 @@ const Toast = ({ show: inProp, children }) => (
 
 Toast.propTypes = {
   show: PropTypes.bool.isRequired,
+  children: PropTypes.any,
 };
 
 Toast.defaultProps = {
