@@ -2,6 +2,7 @@ var React = require('react');
 var PropTypes = require('prop-types');
 
 var Link = require('react-router-dom').Link;
+var Toast = require('./Toast');
 
 var locationIsValid = require('../utils/cityAndCountry').locationIsValid;
 
@@ -69,6 +70,16 @@ class LocationForm extends React.Component {
   render () {
     return (
       <div className={'location-form ' + this.props.style}>
+        <Toast show={!this.state.valid}>
+          <p>Please provide a valid format for the location. Guidance Below:</p>
+          <ul>
+            <li>Format should be of the form &apos;City, Country&apos; where country is 2 characters</li>
+            <li>If country is omitted it will default to the UK</li>
+            <li>&apos;London, UK&apos; is valid</li>
+            <li>&apos;Paris, FR&apos; is valid</li>
+            <li>&apos;New York, USA&apos; is NOT valid</li>
+          </ul>
+        </Toast>
         {this.props.children}
         <input
           className={'location-input ' + this.props.style}

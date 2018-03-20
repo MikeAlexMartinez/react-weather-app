@@ -1,7 +1,9 @@
 var React = require('react');
+var PropTypes = require('prop-types');
 var Link = require('react-router-dom').Link;
 
 var LocationForm = require('./LocationForm');
+var Toast = require('./Toast');
 
 class NavBar extends React.Component {
   render() {
@@ -24,7 +26,7 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-
+  children: PropTypes.object,
 };
 
 module.exports = NavBar;
