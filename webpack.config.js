@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === 'production') {
       }
     }),
     new UglifyJsPlugin()
-  )
+  );
 }
 
 module.exports = config;

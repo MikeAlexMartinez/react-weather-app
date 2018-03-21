@@ -20,13 +20,13 @@ class Loading extends React.Component {
   componentDidMount() {
     const { text, speed }  = this.props;
     const stopper = text + '...';
-    const { currentText } = this.state;
-
+    
     this.interval = window.setInterval(() => {
+      const currentText = this.state.text;
       if (currentText === stopper) {
-        this.setState({
+        this.setState(() => ({
           text: text
-        });
+        }));
       } else {
         this.setState((prevState) => ({
           text: prevState.text + '.',

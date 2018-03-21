@@ -55,14 +55,16 @@ class Forecast extends React.Component {
     getForecastData(city, country)
       .then(summariseForecastData)
       .then(({ location, forecast }) => {
-        this.setState({
-          location,
-          forecast,
-          loading: false,
-          errMessage: '',
-          error: false,
-          days: 5,
-        });
+        setInterval(() => {
+          this.setState({
+            location,
+            forecast,
+            loading: false,
+            errMessage: '',
+            error: false,
+            days: 5,
+          });
+        }, 5000);
       })
       .catch((err) => {
         console.warn(err);

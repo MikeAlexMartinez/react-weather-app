@@ -7,6 +7,10 @@
     "create": "webpack",
     "start": "webpack-dev-server --open",
     "build": "NODE_ENV='production' webpack -p",
+    "win-build": "set NODE_ENV='production' && webpack -p",
+    "deploy": "npm run build && firebase deploy",
+    "win-deploy": "npm run win-build && firebase deploy",
+    "firebase-init": "firebase login && firebase init",
     "test": "jest"
   },
   "repository": {
@@ -58,7 +62,7 @@
     "eslint-plugin-jest": "^21.15.0",
     "eslint-plugin-react": "^7.7.0",
     "file-loader": "^1.1.11",
-    "firebase-tools": "^3.17.6",
+    "firebase-tools": "^3.17.7",
     "html-webpack-plugin": "^3.0.6",
     "jest": "^22.4.2",
     "jest-css-modules": "^1.1.0",

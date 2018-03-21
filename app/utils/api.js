@@ -6,7 +6,7 @@ var openWeatherCodes = require('./openWeatherCodes');
 
 // hits api end point
 function getForecastData(city, country) {
-  var target = 'http://api.openweathermap.org/data/2.5/forecast?q=' +
+  var target = 'https://api.openweathermap.org/data/2.5/forecast?q=' +
     city + ',' + country + '&APPID=' + OPEN_WEATHER_API_KEY;
 
   return axios.get(target);
