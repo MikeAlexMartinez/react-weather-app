@@ -7,6 +7,7 @@ import { toLocaleDate } from '../utils/dates';
 
 import Loading from './Loading';
 import ForecastItem from './ForecastItem';
+import ForecastDetail from './ForecastDetail';
 
 class Forecast extends React.Component {
   constructor (props) {
@@ -19,11 +20,33 @@ class Forecast extends React.Component {
       error: false,
       errMessage: '',
       showDetail: false,
+      detail: null,
       day: null,
       settings: 'celsius',
       location: '',
     };
 
+    this.showDetail = this.showDetail.bind(this);
+    this.hideDetail = this.hideDetail.bind(this);
+  }
+
+  showDetail(date) {
+    const detail = this.state.forecast.reduce((a, b) => 
+      b.date.getDate() === date
+        ? b
+        : a
+      ,{});
+    this.setState({
+      detail,
+      showDetail: true,
+    });
+  }
+
+  hideDetail () {
+    this.setState({
+      detail: null,
+      showDetail: false,
+    });
   }
 
   componentDidMount() {
@@ -58,34 +81,70 @@ class Forecast extends React.Component {
   }
   
   render() {
-    const { loading, forecast, error, 
-      errMessage, showDetail, settings } = this.state;
+    const { loading, forecast, error, detail: d,
+      errMessage, showDetail, settings, location } = this.state;
 
     if (loading) {
-      return <Loading speed={250} text='Fetching Forecast' />;
+      return (
+        <div className='forecast'>
+          <Loading speed={250} text='Fetching Forecast' />;
+        </div>
+      );
     } else if (error) {
-      return <p>{errMessage}</p>;
+      return (
+        <div className='forecast'>
+          <p>{errMessage}</p>;
+        </div>
+      );
+    } else if (showDetail && d) {
+      const date = toLocaleDate(d.date);
+      const time = new Date().getHours();
+      const maxTemp = d[settings + 'TempMax'];
+      const minTemp = d[settings + 'TempMin'];
+      return (
+        <ForecastDetail
+          date={date}
+          icon={
+            time <= 7 && time >= 19
+              ? d.nightIcon
+              : d.dayIcon
+          }
+          location={`${location.name}, ${location.country}`}
+          description={d.description}
+          minTemp={minTemp}
+          maxTemp={maxTemp}
+          humidity={d.humidity}
+          hideDetail={this.hideDetail}
+        />
+      );
     } else if (forecast.length > 0 && !showDetail) {
       return (
         <div className='forecast'>
-          {forecast.map((v) => {
-            const date = toLocaleDate(v.date);
-            const time = new Date().getHours();
-            return (
-              <ForecastItem
-                key={v.date.getDate()}
-                date={date}
-                icon={
-                  time <= 7 && time >= 19
-                    ? v.nightIcon
-                    : v.dayIcon
-                }
-              />
-            );
-          })}
+          <h3 className='forecast-title'>{`${location.name}, ${location.country}`}</h3>
+          <div className='row'>
+            {forecast.map((v) => {
+              const date = toLocaleDate(v.date);
+              const dayOfMonth = v.date.getDate();
+              const time = new Date().getHours();
+              return (
+                <ForecastItem
+                  key={dayOfMonth}
+                  dayOfMonth={dayOfMonth}
+                  showDetail={this.showDetail}
+                  date={date}
+                  icon={
+                    time <= 7 && time >= 19
+                      ? v.nightIcon
+                      : v.dayIcon
+                  }
+                />
+              );
+            })}
+          </div>
         </div>
       );
     } else {
+      console.log(this.state);
       return <p>Oops</p>;
     }
   }

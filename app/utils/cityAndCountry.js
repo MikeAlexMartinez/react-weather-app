@@ -23,7 +23,7 @@ var countries = isoCountries['iso-codes'].reduce(function (a, b) {
 function splitCityAndCountry(str) {
   // check for comma / format of string submitted meets required
   // expectations
-  var re = /^([A-Za-z\s]{2,}),\s*([A-Za-z]{2})$/;
+  var re = /^([A-Za-z\s]{2,})(,\s*([A-Za-z]{2}))*$/;
   var valid = true;
   var city = null;
   var country = null;
@@ -34,21 +34,23 @@ function splitCityAndCountry(str) {
   if (index === -1) {
     country = 'UK';
     city = str.trim().toUpperCase();
-  }
-  
-  // check pattern matches 
-  if (!re.test(str)) {
-    valid = false;
-  }
-  
-  // check if number of commas is greater than 2
-  if (index != -1) {
+  } else {
     wordArr = str.split(',');
     if (wordArr.length > 2) {
       valid = false;
     }
     city = wordArr[0].trim().toUpperCase();
     country = wordArr[1].trim().toUpperCase();
+  }
+  
+  // check pattern matches 
+  if (!re.test(str)) {
+    valid = false;
+  }
+
+  // check country  is in countries array
+  if (countriesArr.indexOf(country) === -1) {
+    valid = false;
   }
 
   return {

@@ -80,7 +80,7 @@ body {
 
   &.vertical {
     width: 35%;
-    margin: 25% auto;
+    margin: 20% auto;
 
     h2 {
      text-align: center;
@@ -119,4 +119,39 @@ body {
   .vertical {
     display: block;
   }
+
+}
+
+.forecast-title {
+  font-size: 50px;
+  text-align: center;
+  font-weight: 300;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
+
+.forecast-item {
+  font-size: 30px;
+  margin: 30px;
+  font-weight: 200;
+}
+
+.forecast .wi {
+  margin-top: 5%;
+  font-weight: 300;
+  color: #7C98B4;
+}
+
+.forecast-detail {
+  font-size: 35px;
+  text-align: center;
+  font-weight: 200;
 }

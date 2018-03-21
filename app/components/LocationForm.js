@@ -64,6 +64,10 @@ class LocationForm extends React.Component {
   handleSubmit(e) {
     if (!this.state.valid) {
       e.preventDefault();
+    } else {
+      if(window.location.pathname === '/forecast') {
+        window.location.reload();
+      }
     }
   }
 
@@ -77,6 +81,7 @@ class LocationForm extends React.Component {
             <li>If country is omitted it will default to the UK</li>
             <li>&apos;London, UK&apos; is valid</li>
             <li>&apos;Paris, FR&apos; is valid</li>
+            <li>&apos;Exeter&apos; is valid, (Country will default to UK)</li>
             <li>&apos;New York, USA&apos; is NOT valid</li>
           </ul>
         </Toast>
